@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Louis Chiron | Portfolio</title>
+
 <style>
 * { margin:0; padding:0; box-sizing:border-box; }
 
@@ -19,31 +20,112 @@ body {
     overflow-x: hidden;
 }
 
-/* Menu en haut */
-header {
+/* ===================== */
+/* MENU INSTINCTIF */
+/* ===================== */
+
+.menu-button {
     position: fixed;
-    top: 0;
-    width: 100%;
-    padding: 1.5rem 5%;
-    background: rgba(44, 62, 80, 0.9);
+    top: 25px;
+    right: 25px;
+    width: 55px;
+    height: 55px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.08);
     backdrop-filter: blur(10px);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-    z-index: 1000;
     display: flex;
     justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    z-index: 1100;
+    transition: 0.3s ease;
+    border: 1px solid rgba(255,255,255,0.2);
 }
 
-nav { display:flex; gap:40px; }
-.nav-link {
-    text-decoration: none;
-    color:#fff;
-    font-size:0.85rem;
-    font-weight:400;
-    text-transform:uppercase;
-    letter-spacing:2px;
-    transition: all 0.4s ease;
+.menu-button:hover {
+    background: rgba(255,255,255,0.15);
+    transform: scale(1.05);
 }
-.nav-link:hover { opacity:0.7; letter-spacing:3px; }
+
+.menu-button span {
+    position: absolute;
+    width: 22px;
+    height: 2px;
+    background: white;
+    transition: 0.4s ease;
+}
+
+.menu-button span:nth-child(1){ transform: translateY(-6px); }
+.menu-button span:nth-child(2){ transform: translateY(6px); }
+
+.menu-button.active span:nth-child(1){ transform: rotate(45deg); }
+.menu-button.active span:nth-child(2){ transform: rotate(-45deg); }
+
+/* Overlay */
+.overlay {
+    position: fixed;
+    width: 100%;
+    height: 100vh;
+    background: rgba(0,0,0,0.5);
+    backdrop-filter: blur(4px);
+    opacity: 0;
+    visibility: hidden;
+    transition: 0.4s ease;
+    z-index: 900;
+}
+
+.overlay.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+/* Menu latéral */
+.side-menu {
+    position: fixed;
+    right: -320px;
+    top: 0;
+    width: 320px;
+    height: 100vh;
+    background: rgba(44, 62, 80, 0.98);
+    backdrop-filter: blur(20px);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 45px;
+    transition: 0.5s ease;
+    z-index: 1000;
+    border-left: 1px solid rgba(255,255,255,0.1);
+}
+
+.side-menu.active {
+    right: 0;
+}
+
+.side-menu a {
+    text-decoration: none;
+    color: #fff;
+    font-size: 1rem;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    opacity: 0;
+    transform: translateX(20px);
+    transition: 0.4s ease;
+}
+
+.side-menu.active a {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+.side-menu a:hover {
+    letter-spacing: 7px;
+    opacity: 0.7;
+}
+
+/* ===================== */
+/* CONTENU ORIGINAL */
+/* ===================== */
 
 .home-container {
     text-align:center;
@@ -61,7 +143,6 @@ h1 {
     animation: float 3s ease-in-out infinite;
 }
 
-/* Effet floté */
 @keyframes float {
     0%, 100% { transform: translateY(0); }
     50% { transform: translateY(-8px); }
@@ -75,7 +156,8 @@ h1 {
     margin-bottom:50px;
 }
 
-/* Cadre autour du paragraphe */
+/* Cadre néon animé */
+
 .presentation-box {
     position: relative;
     border-radius: 2px;
@@ -84,7 +166,6 @@ h1 {
     overflow: hidden;
 }
 
-/* Néon uniforme autour du rectangle - animation continue */
 .presentation-box::before,
 .presentation-box::after,
 .presentation-box div::before,
@@ -92,33 +173,18 @@ h1 {
     content:"";
     position:absolute;
     background: #fff;
-    opacity:1;
 }
 
-.presentation-box::before { top:0; left:0; height:2px; width:0%; animation: topLine 4s linear infinite; } /* haut */
-.presentation-box::after { bottom:0; right:0; height:2px; width:0%; animation: bottomLine 4s linear infinite; } /* bas */
-.presentation-box div::before { top:0; right:0; width:2px; height:0%; animation: rightLine 4s linear infinite; } /* droite */
-.presentation-box div::after { bottom:0; left:0; width:2px; height:0%; animation: leftLine 4s linear infinite; } /* gauche */
+.presentation-box::before { top:0; left:0; height:2px; width:0%; animation: topLine 4s linear infinite; }
+.presentation-box::after { bottom:0; right:0; height:2px; width:0%; animation: bottomLine 4s linear infinite; }
+.presentation-box div::before { top:0; right:0; width:2px; height:0%; animation: rightLine 4s linear infinite; }
+.presentation-box div::after { bottom:0; left:0; width:2px; height:0%; animation: leftLine 4s linear infinite; }
 
-/* Animations pour chaque côté */
-@keyframes topLine {
-    0% { width:0%; left:0; }
-    100% { width:100%; left:0; }
-}
-@keyframes rightLine {
-    0% { height:0%; top:0; }
-    100% { height:100%; top:0; }
-}
-@keyframes bottomLine {
-    0% { width:0%; right:0; }
-    100% { width:100%; right:0; }
-}
-@keyframes leftLine {
-    0% { height:0%; bottom:0; }
-    100% { height:100%; bottom:0; }
-}
+@keyframes topLine { 0% { width:0%; } 100% { width:100%; } }
+@keyframes rightLine { 0% { height:0%; } 100% { height:100%; } }
+@keyframes bottomLine { 0% { width:0%; } 100% { width:100%; } }
+@keyframes leftLine { 0% { height:0%; } 100% { height:100%; } }
 
-/* Texte */
 .presentation-text {
     font-size:0.95rem;
     line-height:1.8;
@@ -130,58 +196,34 @@ h1 {
 
 .presentation-text strong { font-weight:500; color:#fff; }
 
-/* Bouton */
-.contact-btn {
-    display:inline-block;
-    text-decoration:none;
-    color:#fff;
-    border:1px solid #fff;
-    padding:15px 40px;
-    font-size:0.8rem;
-    text-transform:uppercase;
-    letter-spacing:3px;
-    transition: all 0.4s ease;
-    margin-top:10px;
-}
-
-.contact-btn:hover {
-    background-color:#fff;
-    color:#2c3e50;
-    letter-spacing:5px;
-}
-
-/* Animations menu */
-@keyframes fadeInDown {
-    from { opacity:0; transform: translateY(-20px); }
-    to { opacity:1; transform: translateY(0); }
-}
-@keyframes fadeIn {
-    from { opacity:0; }
-    to { opacity:1; }
-}
-
 /* Responsive */
 @media (max-width:768px){
-    nav { gap:15px; }
-    .nav-link { font-size:0.7rem; }
     h1 { font-size:2rem; letter-spacing:5px; }
     .presentation-box { padding:25px; }
-    .contact-btn { padding:12px 30px; font-size:0.7rem; }
 }
 </style>
 </head>
+
 <body>
 
-<header>
-    <nav>
-        <a href="https://chiron-site.github.io/Portfolio-accueil-Louis-Chiron/" class="nav-link">Accueil</a>
-        <a href="https://chiron-site.github.io/Portfolio-photographie-Louis-Chiron/" class="nav-link">Photographie</a>
-        <a href="https://chiron-site.github.io/Portfolio-affiches-Louis-Chiron/" class="nav-link">Affiches</a>
-        <a href="https://chiron-site.github.io/Portfolio-videos-Louis-Chiron/" class="nav-link">Vidéos</a>
-        <a href="https://chiron-site.github.io/Portfolio-web-Louis-Chiron/" class="nav-link">Web</a>
-        <a href="https://chiron-site.github.io/Portfolio-contact-Louis-Chiron/" class="nav-link">Contact</a>
-    </nav>
-</header>
+<!-- Bouton -->
+<div class="menu-button" onclick="toggleMenu()" id="menuBtn">
+    <span></span>
+    <span></span>
+</div>
+
+<!-- Overlay -->
+<div class="overlay" id="overlay" onclick="toggleMenu()"></div>
+
+<!-- Menu -->
+<div class="side-menu" id="sideMenu">
+    <a href="https://chiron-site.github.io/Portfolio-accueil-Louis-Chiron/">Accueil</a>
+    <a href="https://chiron-site.github.io/Portfolio-photographie-Louis-Chiron/">Photographie</a>
+    <a href="https://chiron-site.github.io/Portfolio-affiches-Louis-Chiron/">Affiches</a>
+    <a href="https://chiron-site.github.io/Portfolio-videos-Louis-Chiron/">Vidéos</a>
+    <a href="https://chiron-site.github.io/Portfolio-web-Louis-Chiron/">Web</a>
+    <a href="https://chiron-site.github.io/Portfolio-contact-Louis-Chiron/">Contact</a>
+</div>
 
 <div class="home-container">
     <h1>Louis Chiron</h1>
@@ -190,20 +232,27 @@ h1 {
     <div class="presentation-box">
         <div class="presentation-text">
             <p>
-                Je m’appelle <strong>Louis Chiron</strong>, étudiant en STI2D passionné par la création visuelle et numérique. 
-                Photographe avant tout, je développe mes compétences à travers l’image et j’explore progressivement la vidéo, 
+                Je m’appelle <strong>Louis Chiron</strong>, étudiant en STI2D passionné par la création visuelle et numérique.  
+                Photographe avant tout, je développe mes compétences à travers l’image et j’explore progressivement la vidéo,  
                 le design graphique et le développement web, avec un intérêt particulier pour le sport, le portrait et la nature.
             </p>
             <br>
             <p>
-                Ce portfolio présente une sélection de mes travaux les plus représentatifs et a été entièrement conçu et réalisé par mes soins 
+                Ce portfolio présente une sélection de mes travaux les plus représentatifs et a été entièrement conçu et réalisé par mes soins  
                 en <strong>HTML/CSS</strong>. Je suis constamment à la recherche de nouvelles collaborations pour progresser et enrichir mon expérience.
             </p>
         </div>
     </div>
 
-    <a href="https://chiron-site.github.io/Portfolio-contact-Louis-Chiron/" class="contact-btn">Me contacter</a>
 </div>
+
+<script>
+function toggleMenu(){
+    document.getElementById("sideMenu").classList.toggle("active");
+    document.getElementById("overlay").classList.toggle("active");
+    document.getElementById("menuBtn").classList.toggle("active");
+}
+</script>
 
 </body>
 </html>
